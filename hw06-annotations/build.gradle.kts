@@ -9,6 +9,8 @@ repositories {
 }
 
 dependencies {
+    implementation("ch.qos.logback:logback-classic")
+
     testImplementation ("org.junit.jupiter:junit-jupiter-api")
     testImplementation ("org.junit.jupiter:junit-jupiter-engine")
     testImplementation ("org.assertj:assertj-core")
@@ -17,7 +19,7 @@ dependencies {
 }
 tasks {
     named<ShadowJar>("shadowJar") {
-        archiveBaseName.set("hw04-gradle")
+        archiveBaseName.set("hw06-gradle")
         archiveVersion.set("0.1")
         archiveClassifier.set("")
         manifest {
