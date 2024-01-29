@@ -46,6 +46,7 @@ public class TestStatistics {
     }
 
     public void printInfo() {
+        logger.atInfo().setMessage("\n").log();
         logger.atInfo()
                 .setMessage("==========================================================")
                 .log();
@@ -59,16 +60,6 @@ public class TestStatistics {
                 .log();
         logger.atInfo()
                 .setMessage("--- Interrupted test : " + String.join(", ", errorTestNameList))
-                .log();
-        logger.atInfo().setMessage("- Ignored annotated methods").log();
-        logger.atInfo()
-                .setMessage("--- Before : " + String.join(", ", beforePrivateTestNameList))
-                .log();
-        logger.atInfo()
-                .setMessage("--- After : " + String.join(", ", afterPrivateTestNameList))
-                .log();
-        logger.atInfo()
-                .setMessage("--- Test : " + String.join(", ", testPrivateTestNameList))
                 .log();
         logger.atInfo()
                 .setMessage("==========================================================")

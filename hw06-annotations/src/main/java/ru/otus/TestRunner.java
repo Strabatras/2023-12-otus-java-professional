@@ -10,6 +10,7 @@ import ru.otus.annotations.After;
 import ru.otus.annotations.Before;
 import ru.otus.annotations.Test;
 import ru.otus.exceptions.AssertException;
+import ru.otus.exceptions.BeforeTestException;
 
 public class TestRunner {
     private static final Logger logger = LoggerFactory.getLogger(TestRunner.class);
@@ -31,7 +32,8 @@ public class TestRunner {
                 | NoSuchMethodException
                 | InvocationTargetException
                 | InstantiationException
-                | IllegalAccessException e) {
+                | IllegalAccessException
+                | BeforeTestException e) {
             logger.atError().setMessage(e.getMessage()).log();
         } finally {
             testStatistics.printInfo();
@@ -56,10 +58,10 @@ public class TestRunner {
         if (!method.isAnnotationPresent(beforeClass)) {
             return;
         }
-        AnnotatedMethod annotatedMethod = new AnnotatedMethod(method.getName(), beforeClass.getName());
+        AnnotatedMethod annotatedMethod = new AnnotatedMethod(method.getName());
         if (!Modifier.isPublic(method.getModifiers())) {
             testStructure.addBeforePrivateAnnotatedMethod(annotatedMethod);
-            return;
+            throw new BeforeTestException("Method '" + method.getName() + "' is not public");
         }
         testStructure.addBeforeAnnotatedMethod(annotatedMethod);
     }
@@ -69,7 +71,7 @@ public class TestRunner {
         if (!method.isAnnotationPresent(afterClass)) {
             return;
         }
-        AnnotatedMethod annotatedMethod = new AnnotatedMethod(method.getName(), afterClass.getName());
+        AnnotatedMethod annotatedMethod = new AnnotatedMethod(method.getName());
         if (!Modifier.isPublic(method.getModifiers())) {
             testStructure.addAfterPrivateAnnotatedMethod(annotatedMethod);
             return;
@@ -82,7 +84,7 @@ public class TestRunner {
         if (!method.isAnnotationPresent(testClass)) {
             return;
         }
-        AnnotatedMethod annotatedMethod = new AnnotatedMethod(method.getName(), testClass.getName());
+        AnnotatedMethod annotatedMethod = new AnnotatedMethod(method.getName());
         if (!Modifier.isPublic(method.getModifiers())) {
             testStructure.addTestPrivateAnnotatedMethod(annotatedMethod);
             return;
@@ -99,11 +101,15 @@ public class TestRunner {
         }
     }
 
-    private static void invokeMethod(
-            Class<?> clazz, Object obj, List<AnnotatedMethod> annotatedMethodList, TestStatistics testStatistics)
-            throws NoSuchMethodException, IllegalAccessException {
+    private static void invokeMethodBefore(Class<?> clazz, Object obj, List<AnnotatedMethod> annotatedMethodList) {
         for (AnnotatedMethod annotatedMethod : annotatedMethodList) {
-            invokeMethod(clazz, obj, annotatedMethod, testStatistics);
+            try {
+                Method method = clazz.getMethod(annotatedMethod.getMethodName());
+                method.invoke(obj);
+            } catch (Exception e) {
+                throw new BeforeTestException("Method " + annotatedMethod.getMethodName() + ": "
+                        + e.getCause().getMessage());
+            }
         }
     }
 
@@ -113,9 +119,7 @@ public class TestRunner {
         Method method = clazz.getMethod(annotatedMethod.getMethodName());
         try {
             method.invoke(obj);
-            if (annotatedMethod.getAnnotationName().equals(Test.class.getName())) {
-                testStatistics.addSuccessfulTestName(annotatedMethod.getMethodName());
-            }
+            testStatistics.addSuccessfulTestName(annotatedMethod.getMethodName());
         } catch (InvocationTargetException ite) {
             if (ite.getCause() instanceof AssertException) {
                 testStatistics.addFailedTestName(annotatedMethod.getMethodName());
@@ -125,15 +129,29 @@ public class TestRunner {
         }
     }
 
+    private static void invokeMethodAfter(Class<?> clazz, Object obj, List<AnnotatedMethod> annotatedMethodList) {
+        for (AnnotatedMethod annotatedMethod : annotatedMethodList) {
+            try {
+                Method method = clazz.getMethod(annotatedMethod.getMethodName());
+                method.invoke(obj);
+            } catch (Exception e) {
+                logger.atError()
+                        .setMessage("Method " + annotatedMethod.getMethodName() + ": "
+                                + e.getCause().getMessage())
+                        .log();
+            }
+        }
+    }
+
     private static void executeTest(
             AnnotatedMethod annotatedMethod, TestStructure testStructure, TestStatistics testStatistics)
             throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException,
-                    IllegalAccessException {
+                    IllegalAccessException, BeforeTestException {
         final Class<?> clazz = getClazz(testStructure.getClassName());
         Object obj = clazz.getDeclaredConstructor().newInstance();
 
-        invokeMethod(clazz, obj, testStructure.beforeAnnotatedMethodList(), testStatistics);
+        invokeMethodBefore(clazz, obj, testStructure.beforeAnnotatedMethodList());
         invokeMethod(clazz, obj, annotatedMethod, testStatistics);
-        invokeMethod(clazz, obj, testStructure.afterAnnotatedMethodList(), testStatistics);
+        invokeMethodAfter(clazz, obj, testStructure.afterAnnotatedMethodList());
     }
 }

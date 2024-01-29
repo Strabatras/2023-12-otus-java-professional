@@ -8,6 +8,7 @@ import ru.otus.annotations.After;
 import ru.otus.annotations.Before;
 import ru.otus.annotations.Test;
 
+@SuppressWarnings("java:S1144")
 public class DemoTest {
     private final Logger logger;
 
@@ -20,7 +21,6 @@ public class DemoTest {
         setLoggerInfoMessage("Method UP. Annotation Before");
     }
 
-    @Before
     private void upPrivate() {
         setLoggerInfoMessage("Method UP private. Annotation Before");
     }
