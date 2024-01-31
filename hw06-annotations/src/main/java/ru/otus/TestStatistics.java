@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 public class TestStatistics {
     private final String className;
-    private List<String> successfuTestNamelList = new ArrayList<>();
+    private List<String> successfulTestNamelList = new ArrayList<>();
     private List<String> failedTestNameList = new ArrayList<>();
     private List<String> errorTestNameList = new ArrayList<>();
 
@@ -22,7 +22,7 @@ public class TestStatistics {
     }
 
     public void addSuccessfulTestName(String testName) {
-        successfuTestNamelList.add(testName);
+        successfulTestNamelList.add(testName);
     }
 
     public void addFailedTestName(String testName) {
@@ -53,7 +53,7 @@ public class TestStatistics {
         logger.atInfo().setMessage("Tested class name : " + className).log();
         logger.atInfo().setMessage("- Test results").log();
         logger.atInfo()
-                .setMessage("--- Successful test : " + String.join(", ", successfuTestNamelList))
+                .setMessage("--- Successful test : " + String.join(", ", successfulTestNamelList))
                 .log();
         logger.atInfo()
                 .setMessage("--- Failed test : " + String.join(", ", failedTestNameList))
