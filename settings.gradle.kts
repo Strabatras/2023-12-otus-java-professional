@@ -4,6 +4,8 @@ include("hw04-generics")
 include("hw06-annotations")
 include("hw08-gc")
 
+include("sandbox")
+
 pluginManagement {
     val jgitver: String by settings
     val dependencyManagement: String by settings
@@ -25,3 +27,4 @@ pluginManagement {
         id("com.diffplug.spotless") version spotless
     }
 }
+
