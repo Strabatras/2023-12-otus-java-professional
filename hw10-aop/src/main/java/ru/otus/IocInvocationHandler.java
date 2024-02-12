@@ -10,15 +10,15 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CalculatorInvocationHandler implements InvocationHandler {
-    private final Calculator calculator;
+public class IocInvocationHandler implements InvocationHandler {
+    private final Object obj;
     private final Map<String, List<String>> annotatedMethodParam;
     private final Logger logger;
 
-    public CalculatorInvocationHandler(Calculator calculator) {
-        this.calculator = calculator;
-        this.annotatedMethodParam = fillAnnotatedMethodParamList(calculator);
-        this.logger = LoggerFactory.getLogger(CalculatorInvocationHandler.class);
+    public IocInvocationHandler(Object obj) {
+        this.obj = obj;
+        this.annotatedMethodParam = fillAnnotatedMethodParamList(obj);
+        this.logger = LoggerFactory.getLogger(IocInvocationHandler.class);
     }
 
     @Override
@@ -26,17 +26,16 @@ public class CalculatorInvocationHandler implements InvocationHandler {
         if (isAnnotatedMethod(method)) {
             toLogger(method, args);
         }
-        return method.invoke(calculator, args);
+        return method.invoke(obj, args);
     }
 
-    private Map<String, List<String>> fillAnnotatedMethodParamList(Calculator calculator) {
+    private Map<String, List<String>> fillAnnotatedMethodParamList(Object obj) {
         Map<String, List<String>> annotatedMethod = new HashMap<>();
-        for (Method method : calculator.getClass().getMethods()) {
+        for (Method method : obj.getClass().getMethods()) {
 
             if (method.isAnnotationPresent(Log.class)) {
                 String methodName = method.getName();
                 List<String> methodParams = annotatedMethod.computeIfAbsent(methodName, key -> new ArrayList<>());
-
                 String genericParameterTypesToString = genericParameterTypesToString(method);
                 methodParams.add(genericParameterTypesToString);
                 annotatedMethod.put(methodName, methodParams);

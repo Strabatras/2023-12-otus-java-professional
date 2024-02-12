@@ -12,10 +12,8 @@ public class Main {
 
     public static void main(String[] args) {
         logger.atInfo().setMessage("HomeWork 10").log();
-        var calculatorInvocationHandler = new CalculatorInvocationHandler(new CalculatorImpl());
-        var calculatorProxy = new CalculatorProxy(calculatorInvocationHandler);
 
-        Calculator calculator = calculatorProxy.createCalculator();
+        Calculator calculator = Ioc.create(new CalculatorImpl(), Calculator.class);
         calculator.calculation(1);
         calculator.calculation(1, 2);
         calculator.calculation(1, 2, THREE);
