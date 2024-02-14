@@ -4,6 +4,7 @@ include("hw04-generics")
 include("hw06-annotations")
 include("hw08-gc")
 include("hw10-aop")
+include("hw12-solid")
 
 include("sandbox")
 
