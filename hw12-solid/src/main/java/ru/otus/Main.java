@@ -47,7 +47,7 @@ public class Main {
         try {
             List<Banknote> banknotes = atmController.giveMoney(amount);
 
-            System.out.println("\nВыданы банкноты:");
+            System.out.println("Выданы банкноты:");
             for (Banknote banknote : banknotes) {
                 System.out.println("Номинал : " + banknote.getNominal().getDignity());
             }

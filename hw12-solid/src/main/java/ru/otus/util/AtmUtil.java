@@ -1,7 +1,5 @@
 package ru.otus.util;
 
-import static java.lang.String.format;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,11 +27,10 @@ public class AtmUtil {
         for (Billing billing : billingList) {
             sum += billing.getSum();
             cnt += billing.getCount();
-            System.out.println(
-                    format(MESSAGE_BILLING_NOMINAL_INFO, billing.getNominal(), billing.getCount(), billing.getSum()));
+            System.out.printf(
+                    MESSAGE_BILLING_NOMINAL_INFO + "%n", billing.getNominal(), billing.getCount(), billing.getSum());
         }
-
-        System.out.println(format(MESSAGE_BILLING_NOMINAL_TOTAL_INFO, billingList.size(), cnt, sum));
+        System.out.printf((MESSAGE_BILLING_NOMINAL_TOTAL_INFO) + "%n", billingList.size(), cnt, sum);
     }
 
     public static Banknote banknote(Nominal nominal) {

@@ -1,6 +1,5 @@
 package ru.otus.service.impl;
 
-import static ru.otus.util.AtmUtil.entryToBilling;
 import static ru.otus.util.AtmUtil.validateAmount;
 
 import java.util.ArrayList;
@@ -13,6 +12,7 @@ import ru.otus.enums.Nominal;
 import ru.otus.exception.AtmEmptyCellException;
 import ru.otus.repository.AtmRepository;
 import ru.otus.service.AtmService;
+import ru.otus.util.AtmUtil;
 
 @RequiredArgsConstructor
 public class AtmServiceImpl implements AtmService {
@@ -33,7 +33,7 @@ public class AtmServiceImpl implements AtmService {
     @Override
     public List<Billing> billing() {
         Map<Integer, Long> cellBox = atmRepository.cellBox();
-        return cellBox.entrySet().stream().map(e -> entryToBilling(e)).toList();
+        return cellBox.entrySet().stream().map(AtmUtil::entryToBilling).toList();
     }
 
     @Override
@@ -61,9 +61,7 @@ public class AtmServiceImpl implements AtmService {
                 banknotes.add(banknote);
                 amount -= nominal.getDignity();
             } catch (AtmEmptyCellException e) {
-                if (amount > 0) {
-                    recursiveBanknoteSelection(amount, banknotes);
-                }
+                recursiveBanknoteSelection(amount, banknotes);
                 return;
             }
         }

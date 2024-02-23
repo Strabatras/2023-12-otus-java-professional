@@ -18,7 +18,7 @@ public class AtmController {
         atmService.addBanknote(banknoteList);
     }
 
-    public List<Banknote> giveMoney(Long amount) {
+    public List<Banknote> giveMoney(long amount) {
         return atmService.giveMoney(amount);
     }
 

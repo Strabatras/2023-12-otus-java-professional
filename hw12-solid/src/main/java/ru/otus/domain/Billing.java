@@ -7,6 +7,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Billing {
     private final int nominal;
-    private final Long count;
-    private final Long sum;
+    private final long count;
+    private final long sum;
 }
