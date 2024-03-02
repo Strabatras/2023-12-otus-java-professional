@@ -90,7 +90,7 @@ class AtmServiceImplTest {
         when(atmRepository.minNominalInCellBox()).thenReturn(Nominal.FIVE);
         when(atmRepository.releventNominal(anyLong()))
                 .thenReturn(Nominal.ONE_HUNDRED, Nominal.THEN, Nominal.THEN, Nominal.THEN, Nominal.FIVE);
-        when(atmRepository.banknoteByNominal(any(Nominal.class)))
+        when(atmRepository.getBanknoteByNominal(any(Nominal.class)))
                 .thenReturn(
                         banknote(Nominal.ONE_HUNDRED),
                         banknote(Nominal.THEN),
@@ -108,7 +108,7 @@ class AtmServiceImplTest {
         verify(atmRepository, times(1)).totalCellBoxSum();
         verify(atmRepository, times(1)).minNominalInCellBox();
         verify(atmRepository, times(5)).releventNominal(anyLong());
-        verify(atmRepository, times(5)).banknoteByNominal(any(Nominal.class));
+        verify(atmRepository, times(5)).getBanknoteByNominal(any(Nominal.class));
     }
 
     @DisplayName("возвращает исключение если запрашиваемая сумма меньше единицы")

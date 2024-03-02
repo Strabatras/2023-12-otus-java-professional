@@ -4,6 +4,7 @@ import static ru.otus.util.AtmUtil.printBilling;
 import static ru.otus.util.AtmUtil.randomBanknoteList;
 
 import java.util.List;
+import java.util.TreeMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.controller.AtmController;
@@ -22,7 +23,7 @@ public class Main {
     public static void main(String[] args) {
         logger.atInfo().setMessage("HomeWork 12").log();
 
-        AtmRepository atmRepository = new AtmRepository();
+        AtmRepository atmRepository = new AtmRepository(new TreeMap<>());
         AtmService atmService = new AtmServiceImpl(atmRepository);
         AtmController atmController = new AtmController(atmService);
 

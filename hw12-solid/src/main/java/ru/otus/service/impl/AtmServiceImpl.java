@@ -26,7 +26,7 @@ public class AtmServiceImpl implements AtmService {
     @Override
     public void addBanknote(List<Banknote> banknoteList) {
         for (Banknote banknote : banknoteList) {
-            atmRepository.addBanknote(banknote);
+            this.addBanknote(banknote);
         }
     }
 
@@ -57,7 +57,7 @@ public class AtmServiceImpl implements AtmService {
                 return;
             }
             try {
-                Banknote banknote = atmRepository.banknoteByNominal(nominal);
+                Banknote banknote = atmRepository.getBanknoteByNominal(nominal);
                 banknotes.add(banknote);
                 amount -= nominal.getDignity();
             } catch (AtmEmptyCellException e) {

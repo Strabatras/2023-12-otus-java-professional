@@ -24,7 +24,7 @@ class AtmRepositoryTest {
 
     @BeforeEach
     public void setUp() {
-        this.atmRepository = new AtmRepository();
+        this.atmRepository = new AtmRepository(new TreeMap<>());
     }
 
     @DisplayName("добавляет банкноту в хранилище")
@@ -64,7 +64,7 @@ class AtmRepositoryTest {
         Nominal nominal = banknote.getNominal();
         atmRepository.addBanknote(banknote);
 
-        Banknote banknoteByNominal = atmRepository.banknoteByNominal(nominal);
+        Banknote banknoteByNominal = atmRepository.getBanknoteByNominal(nominal);
 
         assertEquals(
                 banknote.getNominal().getDignity(),
@@ -76,7 +76,8 @@ class AtmRepositoryTest {
     void shouldReturnBanknoteByNominalAtmEmptyCellException() {
         Map<Integer, Long> cellBoxEmpty = atmRepository.cellBox();
 
-        var exception = assertThrows(AtmEmptyCellException.class, () -> atmRepository.banknoteByNominal(Nominal.FIVE));
+        var exception =
+                assertThrows(AtmEmptyCellException.class, () -> atmRepository.getBanknoteByNominal(Nominal.FIVE));
 
         assertTrue(cellBoxEmpty.isEmpty());
         assertEquals("Ошибка получения банкноты Ячейка пуста", exception.getMessage());
@@ -92,7 +93,7 @@ class AtmRepositoryTest {
 
         long cellSize = atmRepository.cellBox().computeIfAbsent(nominal.getDignity(), key -> 0L);
 
-        atmRepository.banknoteByNominal(nominal);
+        atmRepository.getBanknoteByNominal(nominal);
 
         long cellSizeDecrement = atmRepository.cellBox().computeIfAbsent(nominal.getDignity(), key -> 0L);
 

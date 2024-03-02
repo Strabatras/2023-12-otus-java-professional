@@ -12,7 +12,11 @@ import ru.otus.exception.AtmNominalException;
 
 public class AtmRepository {
 
-    private final Map<Integer, Long> cellBox = new TreeMap<>();
+    private final Map<Integer, Long> cellBox;
+
+    public AtmRepository(Map<Integer, Long> cellBox) {
+        this.cellBox = cellBox;
+    }
 
     public void addBanknote(Banknote banknote) {
         int dignity = banknote.getNominal().getDignity();
@@ -20,7 +24,7 @@ public class AtmRepository {
         cellBox.put(dignity, cellSize);
     }
 
-    public Banknote banknoteByNominal(Nominal nominal) {
+    public Banknote getBanknoteByNominal(Nominal nominal) {
         Long cellSize = cellBox.computeIfAbsent(nominal.getDignity(), key -> 0L);
         if (cellSize == 0) {
             cellBox.remove(nominal.getDignity());
