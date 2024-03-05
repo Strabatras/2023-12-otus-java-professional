@@ -8,6 +8,7 @@ import ru.otus.processor.LoggerProcessor;
 import ru.otus.processor.ProcessorConcatFields;
 import ru.otus.processor.ProcessorUpperField10;
 
+@SuppressWarnings({"java:S106"})
 public class Demo {
     public static void main(String[] args) {
         var processors = List.of(new ProcessorConcatFields(), new LoggerProcessor(new ProcessorUpperField10()));
