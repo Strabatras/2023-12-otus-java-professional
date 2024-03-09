@@ -1,7 +1,5 @@
 package ru.otus.model;
 
-import static ru.otus.util.MessageUtil.cloneField13;
-
 @SuppressWarnings({"java:S107"})
 public class Message {
     private final long id;
@@ -103,7 +101,7 @@ public class Message {
     }
 
     public ObjectForMessage getField13() {
-        return cloneField13(field13);
+        return field13;
     }
 
     @Override
@@ -125,6 +123,11 @@ public class Message {
         return new Builder(
                 id, field1, field2, field3, field4, field5, field6, field7, field8, field9, field10, field11, field12,
                 field13);
+    }
+
+    @Override
+    public Object clone() {
+        return toBuilder().field13(field13.clone()).build();
     }
 
     @Override
@@ -264,20 +267,8 @@ public class Message {
 
         public Message build() {
             return new Message(
-                    id,
-                    field1,
-                    field2,
-                    field3,
-                    field4,
-                    field5,
-                    field6,
-                    field7,
-                    field8,
-                    field9,
-                    field10,
-                    field11,
-                    field12,
-                    cloneField13(field13));
+                    id, field1, field2, field3, field4, field5, field6, field7, field8, field9, field10, field11,
+                    field12, field13);
         }
     }
 }
