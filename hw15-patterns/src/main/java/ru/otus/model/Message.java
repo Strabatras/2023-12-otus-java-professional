@@ -1,6 +1,6 @@
 package ru.otus.model;
 
-@SuppressWarnings({"java:S107"})
+@SuppressWarnings({"java:S107", "java:S2975", "java:S1182"})
 public class Message {
     private final long id;
     private final String field1;
