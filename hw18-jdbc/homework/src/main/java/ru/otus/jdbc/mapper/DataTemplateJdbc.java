@@ -49,7 +49,7 @@ public class DataTemplateJdbc<T> implements DataTemplate<T> {
                     try {
                         List<T> entityList = new ArrayList<>();
                         while (rs.next()) {
-                            entityList.add(null);
+                            entityList.add(rsToEntity(rs));
                         }
                         return entityList;
                     } catch (Exception e) {

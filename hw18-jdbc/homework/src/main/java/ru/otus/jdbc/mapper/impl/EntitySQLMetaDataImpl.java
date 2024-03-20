@@ -25,7 +25,10 @@ public class EntitySQLMetaDataImpl<T> implements EntitySQLMetaData {
 
     @Override
     public String getSelectAllSql() {
-        return format("SELECT %s FROM %s", join(JOIN_FIELD_DELIMITER, fieldNames), entityClassMetaData.getName());
+        return format("SELECT %s FROM %s",
+                join(JOIN_FIELD_DELIMITER, fieldNames),
+                entityClassMetaData.getName()
+        );
     }
 
     @Override
