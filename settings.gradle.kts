@@ -9,6 +9,7 @@ include("hw15-patterns")
 include("hw16-io")
 include("hw18-jdbc:demo")
 include("hw18-jdbc:homework")
+include("hw21-jpql")
 
 include("sandbox")
 
