@@ -10,6 +10,8 @@ include("hw16-io")
 include("hw18-jdbc:demo")
 include("hw18-jdbc:homework")
 include("hw21-jpql")
+include("hw22-cache:demo")
+include("hw22-cache:homework")
 
 include("sandbox")
 
