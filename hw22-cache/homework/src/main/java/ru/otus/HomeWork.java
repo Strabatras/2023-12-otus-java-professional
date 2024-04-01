@@ -4,6 +4,7 @@ import javax.sql.DataSource;
 import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.otus.cachehw.MyCache;
 import ru.otus.core.repository.executor.DbExecutorImpl;
 import ru.otus.core.sessionmanager.TransactionRunnerJdbc;
 import ru.otus.crm.datasource.DriverManagerDataSource;
@@ -16,6 +17,15 @@ import ru.otus.jdbc.mapper.EntityClassMetaData;
 import ru.otus.jdbc.mapper.EntitySQLMetaData;
 import ru.otus.jdbc.mapper.impl.EntityClassMetaDataImpl;
 import ru.otus.jdbc.mapper.impl.EntitySQLMetaDataImpl;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.WeakHashMap;
+/*
+VM options
+-Xms3m
+-Xmx3m
+*/
 
 @SuppressWarnings({"java:S125", "java:S1481"})
 public class HomeWork {
@@ -41,7 +51,7 @@ public class HomeWork {
                 entityClassMetaDataClient); // реализация DataTemplate, универсальная
 
         // Код дальше должен остаться
-        var dbServiceClient = new DbServiceClientImpl(transactionRunner, dataTemplateClient);
+        var dbServiceClient = new DbServiceClientImpl(transactionRunner, dataTemplateClient, new MyCache<>(new WeakHashMap<>(), true));
         dbServiceClient.saveClient(new Client("dbServiceFirst"));
 
         var clientSecond = dbServiceClient.saveClient(new Client("dbServiceSecond"));
@@ -60,14 +70,20 @@ public class HomeWork {
                         entitySQLMetaDataManager,
                         entityClassMetaDataManager);
 
-        var dbServiceManager = new DbServiceManagerImpl(transactionRunner, dataTemplateManager);
-        dbServiceManager.saveManager(new Manager("ManagerFirst"));
 
-        var managerSecond = dbServiceManager.saveManager(new Manager("ManagerSecond"));
-        var managerSecondSelected = dbServiceManager
-                .getManager(managerSecond.getNo())
-                .orElseThrow(() -> new RuntimeException("Manager not found, id:" + managerSecond.getNo()));
-        log.info("managerSecondSelected:{}", managerSecondSelected);
+        final List<Long> ids = new ArrayList<>();
+
+        for(int i = 0; i < 100; i++){
+            var client = dbServiceClient.saveClient(new Client("Client #" + i));
+            ids.add(client.getId());
+        }
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@ ");
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@ ");
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@ ");
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@ ");
+        for(long id : ids){
+            dbServiceClient.getClient(id);
+        }
     }
 
     private static void flywayMigrations(DataSource dataSource) {
