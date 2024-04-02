@@ -3,6 +3,8 @@ package ru.otus.cachehw;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.WeakHashMap;
+
 public class HWCacheDemo {
     private static final Logger logger = LoggerFactory.getLogger(HWCacheDemo.class);
 
@@ -11,7 +13,7 @@ public class HWCacheDemo {
     }
 
     private void demo() {
-        HwCache<String, Integer> cache = new MyCache<>();
+        HwCache<String, Integer> cache = new MyCache<>(new WeakHashMap<>(), false);
 
         // пример, когда Idea предлагает упростить код, при этом может появиться "спец"-эффект
         @SuppressWarnings("java:S1604")

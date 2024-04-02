@@ -12,6 +12,8 @@ import ru.otus.crm.model.Client;
 import ru.otus.crm.repository.ClientDataTemplateJdbc;
 import ru.otus.crm.service.DbServiceClientImpl;
 
+import java.util.WeakHashMap;
+
 public class DbServiceDemo {
     private static final String URL = "jdbc:postgresql://localhost:5430/demoDB";
     private static final String USER = "usr";
@@ -28,7 +30,7 @@ public class DbServiceDemo {
         var clientTemplate = new ClientDataTemplateJdbc(dbExecutor); // реализация DataTemplate, заточена на Client
 
         ///
-        var dbServiceClient = new DbServiceClientImpl(transactionRunner, clientTemplate);
+        var dbServiceClient = new DbServiceClientImpl(transactionRunner, clientTemplate, new MyCache<>(new WeakHashMap<>(), true));
         dbServiceClient.saveClient(new Client("dbServiceFirst"));
 
         var clientSecond = dbServiceClient.saveClient(new Client("dbServiceSecond"));
