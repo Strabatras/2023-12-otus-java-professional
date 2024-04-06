@@ -12,6 +12,7 @@ include("hw18-jdbc:homework")
 include("hw21-jpql")
 include("hw22-cache:demo")
 include("hw22-cache:homework")
+include("hw24-webServer")
 
 include("sandbox")
 
