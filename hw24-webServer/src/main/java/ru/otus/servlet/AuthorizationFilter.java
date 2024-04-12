@@ -13,8 +13,9 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-public class AuthorizationFilter implements Filter {
+import static ru.otus.enums.ClientsWebServerUri.LOGIN_FORM_PAGE;
 
+public class AuthorizationFilter implements Filter {
     private ServletContext context;
 
     @Override
@@ -34,7 +35,7 @@ public class AuthorizationFilter implements Filter {
         HttpSession session = request.getSession(false);
 
         if (session == null) {
-            response.sendRedirect("/login");
+            response.sendRedirect(LOGIN_FORM_PAGE.getUri());
         } else {
             filterChain.doFilter(servletRequest, servletResponse);
         }

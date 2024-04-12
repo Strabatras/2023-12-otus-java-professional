@@ -1,0 +1,43 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Клиенты</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="/js/script.js"></script>
+</head>
+<body>
+    <#include "*/menu-top.ftl">
+
+    <h2>Клиенты</h2>
+    <div class="message message-error <#if errorMessage == ''>display-none</#if>" id="message-error">${errorMessage}</div>
+    <div class="message message-success <#if successMessage == ''>display-none</#if>" id="message-success">${successMessage}</div>
+
+    <#include "button_add_client.ftl">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Клиент</th>
+            <th>Адрес</th>
+            <th>Телефон(ы)</th>
+        </tr>
+        </thead>
+        <tbody id="client-table-body">
+        <#list clients as item>
+        <tr>
+            <td>${item.id}</td>
+            <td>${item.name}</td>
+            <td>${item.address.street}</td>
+            <td>
+                <ul>
+                    <#list item.phones as phone>
+                    <li>${phone.number}</li>
+                </#list>
+                </ul>
+            </td>
+        </tr>
+        </#list>
+        </tbody>
+    </table>
+    <#include "button_add_client.ftl">
+</body>
+</html>
