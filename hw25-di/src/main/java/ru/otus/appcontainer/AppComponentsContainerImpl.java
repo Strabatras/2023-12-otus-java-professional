@@ -64,7 +64,7 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
                 .filter(component -> componentClass.isAssignableFrom(component.getClass()))
                 .toList();
 
-        if (components.size() == 0 ){
+        if (components.isEmpty()){
             throw new RuntimeException("Attempt of getting missing component");
         }
 
