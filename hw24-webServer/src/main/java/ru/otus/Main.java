@@ -1,28 +1,42 @@
 package ru.otus;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import org.hibernate.cfg.Configuration;
 import ru.otus.dao.InMemoryUserDao;
-import ru.otus.dao.UserDao;
-import ru.otus.server.UsersWebServer;
-import ru.otus.server.UsersWebServerWithFilterBasedSecurity;
+import ru.otus.model.Address;
+import ru.otus.model.Client;
+import ru.otus.model.Phone;
+import ru.otus.server.ClientsWebServer;
+import ru.otus.server.impl.ClientsWebServerImpl;
+import ru.otus.services.DBServiceClient;
 import ru.otus.services.TemplateProcessor;
-import ru.otus.services.TemplateProcessorImpl;
 import ru.otus.services.UserAuthService;
-import ru.otus.services.UserAuthServiceImpl;
+import ru.otus.services.impl.DbServiceClientImpl;
+import ru.otus.services.impl.TemplateProcessorImpl;
+import ru.otus.services.impl.UserAuthServiceImpl;
+import ru.otus.util.DBHibernateUtil;
 
 public class Main {
     private static final int WEB_SERVER_PORT = 8080;
     private static final String TEMPLATES_DIR = "/templates/";
 
     public static void main(String[] args) throws Exception {
-        UserDao userDao = new InMemoryUserDao();
-        Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
-        TemplateProcessor templateProcessor = new TemplateProcessorImpl(TEMPLATES_DIR);
-        UserAuthService authService = new UserAuthServiceImpl(userDao);
+        Class<?>[] annotatedClasses = {Client.class, Address.class, Phone.class};
 
-        UsersWebServer usersWebServer = new UsersWebServerWithFilterBasedSecurity(
-                WEB_SERVER_PORT, authService, userDao, gson, templateProcessor);
+        var dbHibernateUtil = new DBHibernateUtil<>(
+                new Configuration(),
+                Client.class,
+                annotatedClasses
+        );
+
+        var transactionManager = dbHibernateUtil.getTransactionManager();
+        var clientTemplate = dbHibernateUtil.getDataTemplate();
+        DBServiceClient dbServiceClient = new DbServiceClientImpl(transactionManager, clientTemplate);
+
+        TemplateProcessor templateProcessor = new TemplateProcessorImpl(TEMPLATES_DIR);
+        UserAuthService authService = new UserAuthServiceImpl(new InMemoryUserDao());
+
+        ClientsWebServer usersWebServer = new ClientsWebServerImpl(
+                WEB_SERVER_PORT, authService, dbServiceClient, templateProcessor);
 
         usersWebServer.start();
         usersWebServer.join();

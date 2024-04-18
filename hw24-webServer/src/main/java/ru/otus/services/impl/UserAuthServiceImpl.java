@@ -1,9 +1,9 @@
-package ru.otus.services;
+package ru.otus.services.impl;
 
 import ru.otus.dao.UserDao;
+import ru.otus.services.UserAuthService;
 
 public class UserAuthServiceImpl implements UserAuthService {
-
     private final UserDao userDao;
 
     public UserAuthServiceImpl(UserDao userDao) {
