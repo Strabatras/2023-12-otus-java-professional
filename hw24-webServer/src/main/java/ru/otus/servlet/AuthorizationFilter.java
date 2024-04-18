@@ -10,9 +10,14 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.eclipse.jetty.http.HttpMethod;
+import org.hibernate.Session;
 
 import java.io.IOException;
+import java.util.Objects;
 
+import static java.util.Objects.isNull;
+import static ru.otus.enums.ClientsWebServerUri.CLIENTS_LIST_PAGE;
 import static ru.otus.enums.ClientsWebServerUri.LOGIN_FORM_PAGE;
 
 public class AuthorizationFilter implements Filter {
@@ -32,9 +37,7 @@ public class AuthorizationFilter implements Filter {
         String uri = request.getRequestURI();
         this.context.log("Requested Resource:" + uri);
 
-        HttpSession session = request.getSession(false);
-
-        if (session == null) {
+        if (useAuthentication(request)) {
             response.sendRedirect(LOGIN_FORM_PAGE.getUri());
         } else {
             filterChain.doFilter(servletRequest, servletResponse);
@@ -44,5 +47,14 @@ public class AuthorizationFilter implements Filter {
     @Override
     public void destroy() {
         // Not implemented
+    }
+
+    private boolean useAuthentication(HttpServletRequest request){
+        if(HttpMethod.GET.name().equals(request.getMethod())
+                && CLIENTS_LIST_PAGE.getUri().equals(request.getRequestURI())){
+            return false;
+        }
+        HttpSession session = request.getSession(false);
+        return isNull(session);
     }
 }

@@ -65,10 +65,6 @@ public class ClientsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession(false);
-        if (session == null) {
-            response.sendRedirect(LOGIN_FORM_PAGE.getUri());
-            return;
-        }
         try {
             Client client = requestToClient(request);
             dbServiceClient.saveClient(client);

@@ -73,7 +73,7 @@ public class ClientsWebServerImpl implements ClientsWebServer {
 
         Handler.Sequence sequence = new Handler.Sequence();
         sequence.addHandler(resourceHandler);
-        sequence.addHandler(applySecurity(servletContextHandler, CLIENTS_FORM_PAGE.getUri()));
+        sequence.addHandler(applySecurity(servletContextHandler, CLIENTS_FORM_PAGE.getUri(), CLIENTS_LIST_PAGE.getUri()));
 
         server.setHandler(sequence);
     }
