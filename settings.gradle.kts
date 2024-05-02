@@ -14,6 +14,7 @@ include("hw22-cache:demo")
 include("hw22-cache:homework")
 include("hw24-webServer")
 include("hw25-di")
+include("hw28-spring-data-jdbc")
 
 include("sandbox")
 
