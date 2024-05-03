@@ -1,0 +1,131 @@
+body {
+    color: #333333;
+}
+
+DIV.add-client-block{
+    display: block;
+    margin: 0px;
+    padding: 0px 10px 10px 0px;
+    text-align: right;
+}
+
+ul {
+    padding: 0px 0px 0px 10px;
+}
+
+.menu-top ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333333;
+}
+
+.menu-top li {
+    float: left;
+}
+
+.menu-top li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 16px;
+    text-decoration: none;
+}
+
+.menu-top li a:hover {
+    background-color: #111111;
+}
+
+.message {
+    width: 99%;
+    display: block;
+    border-radius: 10px;
+    padding: 15px 10px 15px 10px;
+    margin: 0px 0px 15px 0px;
+}
+
+.message-info{
+    border: 1px solid #8dcbff;
+    background-color: #c0def6;
+}
+
+.message-error {
+    border: 1px solid #e89d9d;
+    background-color: #ffc7c7;
+}
+
+.message-success {
+    border: 1px solid #82b08c;
+    background-color: #dff0d8;
+}
+
+.display-none {
+    display: none;
+}
+
+.table{
+    border: 1px solid #eee;
+    table-layout: fixed;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.table th {
+    font-weight: bold;
+    padding: 5px;
+    background: #efefef;
+    border: 1px solid #dddddd;
+}
+.table th:first-child {
+    width: 15px;
+}
+.table td{
+    padding: 5px 10px;
+    border: 1px solid #eee;
+    text-align: left;
+}
+.table tbody tr:nth-child(odd){
+    background: #fff;
+}
+.table tbody tr:nth-child(even){
+    background: #F7F7F7;
+}
+
+.table-in-form .table{
+    border: 1px solid #eee;
+    table-layout: fixed;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.table-in-form {
+    width: auto;
+}
+
+.table-in-form td{
+    padding: 5px 10px;
+    border: 1px solid #eee;
+    text-align: left;
+}
+
+.table-in-form tr:last-child td {
+    text-align: center;
+}
+
+textarea {
+    border: 1px solid  rgb(180, 180, 180);;
+    color: rgb(80, 80, 80);
+    width: 450px;
+}
+
+input[type=text], input[type=password] {
+    border: 1px solid rgb(180, 180, 180);
+    width: 450px;
+    height: 30px;
+}
+
+input[type=button], input[type=submit], input[type=reset] {
+    padding: 8px 16px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+}

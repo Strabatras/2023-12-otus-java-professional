@@ -1,0 +1,37 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Клиенты</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="/js/script.js"></script>
+</head>
+<body>
+    <div th:replace="~{/menu-top :: menu-top}"></div>
+
+    <h2>Клиенты</h2>
+    <div class="message message-error display-none" id="message-error"></div>
+
+    <form method="post" action="/clients" enctype="multipart/form-data" id="client-form">
+        <input type="hidden" name="id" id="id" value="">
+        <table class="table-in-form">
+            <tr>
+                <td>Клиент<sup>*</sup></td>
+                <td><input type="text" name="name" id="name" placeholder="Наименование клиента" /></td>
+            </tr>
+            <tr>
+                <td>Адрес<sup>*</sup></td>
+                <td><input type="text" name="address" id="address" placeholder="Адрес клиента" /></td>
+            </tr>
+            <tr>
+                <td>Телефон(ы)<sup>*</sup></td>
+                <td><textarea name="phones" id="phones" rows="4" cols="53" placeholder="По одному на строке"></textarea></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="reset" value="Очистить">
+                    <input type="button" id="save-client" onclick="postClientForm()" value="Сохранить">
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
