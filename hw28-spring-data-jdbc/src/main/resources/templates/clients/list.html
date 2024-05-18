@@ -1,0 +1,40 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Клиенты</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="/js/script.js"></script>
+</head>
+<body>
+
+    <div th:replace="~{/menu-top :: menu-top}"></div>
+
+    <h2>Клиенты</h2>
+    <div class="message message-error"   th:classappend="${errorMessage} ? '' : 'display-none'"   id="message-error"   th:text="${errorMessage}">error message</div>
+    <div class="message message-success" th:classappend="${successMessage} ? '' : 'display-none'" id="message-success" th:text="${successMessage}">success message</div>
+
+    <div th:replace="~{/clients/button-add :: button-add}"></div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Клиент</th>
+            <th>Адрес</th>
+            <th>Телефон(ы)</th>
+        </tr>
+        </thead>
+        <tbody id="client-table-body">
+            <tr th:each="client: ${clients}">
+                <td th:text="${client.id}" />
+                <td th:text="${client.name}" />
+                <td th:text="${client.address.getStreet()}" />
+                <td>
+                    <ul>
+                        <li th:each="phone: ${client.phones}" th:text="${phone.getNumber()}">phone</li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div th:replace="~{/clients/button-add :: button-add}"></div>
+</body>
+</html>

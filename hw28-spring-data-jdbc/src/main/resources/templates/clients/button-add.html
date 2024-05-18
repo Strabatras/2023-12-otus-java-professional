@@ -1,0 +1,3 @@
+<div class="add-client-block" th:fragment="button-add">
+    <input type="button" name="add-client" value="Добавить клиента" th:attr="data-authorized=${authorized} ? 'true' : 'false'" onclick="btnAddClient( this );">
+</div>
