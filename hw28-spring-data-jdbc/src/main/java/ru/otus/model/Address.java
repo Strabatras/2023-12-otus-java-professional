@@ -19,4 +19,13 @@ public class Address {
         this.street = street;
         this.clientId = clientId;
     }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "id='" + id + "'" +
+                ", street='" + street + "'" +
+                ", clientId='" + clientId + "'" +
+                "}";
+    }
 }

@@ -19,4 +19,13 @@ public class Phone {
         this.number = number;
         this.clientId = clientId;
     }
+
+    @Override
+    public String toString() {
+        return "Phone{" +
+                "id='" + id + "'" +
+                ", number='" + number + "'" +
+                ", clientId='" + clientId + "'" +
+                "}";
+    }
 }

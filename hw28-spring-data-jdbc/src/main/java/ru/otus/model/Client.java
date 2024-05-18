@@ -29,4 +29,14 @@ public class Client {
         this.address = address;
         this.phones = phones;
     }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id='" + id + "'" +
+                ", name='" + name + "'" +
+                ", address='" + address + "'" +
+                ", phones='" + phones + "'" +
+                "}";
+    }
 }
