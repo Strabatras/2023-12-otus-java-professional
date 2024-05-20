@@ -4,23 +4,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.enums.NameThread;
 
-import java.util.Queue;
-
 public class SequenceThread extends Thread{
     private static final Logger logger = LoggerFactory.getLogger(SequenceThread.class);
+    private static final Integer MAX_SEQUENCE_VALUE = 20;
     private final NameThread nameThread;
     private final Monitor monitor;
-    private final Queue<Integer> dataQueue;
 
-    public SequenceThread(NameThread nameThread, Monitor monitor, Queue<Integer> dataQueue) {
+    public SequenceThread(NameThread nameThread, Monitor monitor) {
         this.nameThread = nameThread;
         this.monitor = monitor;
-        this.dataQueue = dataQueue;
     }
 
     @Override
     public void run(){
-        while (!this.isInterrupted()) {
+        while (!this.isInterrupted() && canNextRun()) {
             try{
                 synchronizedRun(monitor);
             } catch (Exception e) {
@@ -35,14 +32,15 @@ public class SequenceThread extends Thread{
             while (!nameThread.equals(monitor.getNameThread())) {
                 monitor.wait();
             }
-            var dataQueueElement = dataQueueElement(monitor);
-            logger.atInfo().setMessage(monitor.getNameThread().getName() + " : " + dataQueueElement).log();
+
+
+            logger.atInfo().setMessage(monitor.getNameThread().getName() + " : " + sequence()).log();
 
             if(nameThread.equals(NameThread.TWO)){
                 System.out.println("\n");
+                monitor.increaseCounter();
                 sleep(300);
             }
-
             var switchedNameThread = switchNameThread(nameThread);
             monitor.setNameThread(switchedNameThread);
             monitor.notify();
@@ -56,12 +54,17 @@ public class SequenceThread extends Thread{
         return NameThread.ONE;
     }
 
-    private Integer dataQueueElement(Monitor monitor){
-        if (monitor.getNameThread().equals(NameThread.ONE)){
-            return dataQueue.peek();
+    private boolean canNextRun(){
+        if (nameThread.equals(NameThread.ONE)){
+            return monitor.getCounter() + 1 < MAX_SEQUENCE_VALUE;
         }
-        var element = dataQueue.poll();
-        dataQueue.add(element);
-        return element;
+        return (monitor.getCounter() ) < MAX_SEQUENCE_VALUE;
+    }
+
+    private int sequence(){
+        if (monitor.getCounter() > 10){
+            return MAX_SEQUENCE_VALUE - monitor.getCounter();
+        }
+        return monitor.getCounter();
     }
 }
