@@ -16,6 +16,7 @@ include("hw24-webServer")
 include("hw25-di")
 include("hw28-spring-data-jdbc")
 include("hw31-executors")
+include("hw32-thread-safe-collections")
 
 include("sandbox")
 
@@ -40,3 +41,4 @@ pluginManagement {
         id("com.diffplug.spotless") version spotless
     }
 }
+
