@@ -19,7 +19,7 @@ public class SequenceThread extends Thread{
     public void run(){
         while (!this.isInterrupted() && canNextRun()) {
             try{
-                synchronizedRun(monitor);
+                this.synchronizedRun(monitor);
             } catch (Exception e) {
                 logger.error(e.getMessage());
                 this.interrupt();
