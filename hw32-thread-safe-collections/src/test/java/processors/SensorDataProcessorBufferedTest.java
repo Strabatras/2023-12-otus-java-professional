@@ -54,7 +54,7 @@ class SensorDataProcessorBufferedTest {
     }
 
     @Test
-    @Disabled("Удалить до начала тестирования")
+    //@Disabled("Удалить до начала тестирования")
     void shouldExecFlushWhenBufferOverFlow() {
         List<SensorData> sensorDataList = getSensorDataForTest(BUFFER_SIZE + BUFFER_SIZE / 2);
 
@@ -70,7 +70,7 @@ class SensorDataProcessorBufferedTest {
     }
 
     @Test
-    @Disabled("Удалить до начала тестирования")
+    //@Disabled("Удалить до начала тестирования")
     void shouldFlushBufferDataSortedByTime() {
         List<SensorData> sensorDataList = getSensorDataForTest(BUFFER_SIZE - 1);
         var originalSensorDataList = List.copyOf(sensorDataList);
@@ -88,7 +88,7 @@ class SensorDataProcessorBufferedTest {
     }
 
     @Test
-    @Disabled("Удалить до начала тестирования")
+    //@Disabled("Удалить до начала тестирования")
     void shouldFlushTheRestOfTheBufferDataWhenOnProcessingEndFired() {
         List<SensorData> sensorDataList = getSensorDataForTest(BUFFER_SIZE + BUFFER_SIZE / 2);
         sensorDataList.forEach(sensorData -> processor.process(sensorData));
@@ -105,7 +105,7 @@ class SensorDataProcessorBufferedTest {
     }
 
     @RepeatedTest(100)
-    @Disabled("Удалить до начала тестирования")
+    //@Disabled("Удалить до начала тестирования")
     void shouldCorrectFlushDataFromManyThreads() {
         List<SensorData> sensorDataList = getSensorDataForTest(BUFFER_SIZE - 1);
         sensorDataList.forEach(sensorData -> processor.process(sensorData));
@@ -134,7 +134,7 @@ class SensorDataProcessorBufferedTest {
     }
 
     @RepeatedTest(1_000)
-    @Disabled("Удалить до начала тестирования")
+    //@Disabled("Удалить до начала тестирования")
     void shouldCorrectFlushDataAndWriteThreads() throws InterruptedException {
         List<SensorData> sensorDataList = getSensorDataForTest(BUFFER_SIZE - 1);
 
