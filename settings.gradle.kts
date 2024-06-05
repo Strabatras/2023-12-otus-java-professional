@@ -17,6 +17,7 @@ include("hw25-di")
 include("hw28-spring-data-jdbc")
 include("hw31-executors")
 include("hw32-thread-safe-collections")
+include("hw33-grpc")
 
 include("sandbox")
 
