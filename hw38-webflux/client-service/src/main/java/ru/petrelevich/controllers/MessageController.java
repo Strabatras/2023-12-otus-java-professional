@@ -15,6 +15,7 @@ import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 import org.springframework.web.util.HtmlUtils;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import ru.otus.enums.Room;
 import ru.petrelevich.domain.Message;
 
 @Controller
@@ -33,11 +34,17 @@ public class MessageController {
 
     @MessageMapping("/message.{roomId}")
     public void getMessage(@DestinationVariable String roomId, Message message) {
+
+        if(Room.MUTE_ROOM.getCriterion().equals(roomId)){
+            logger.error("Can not save message for room {}. Operation is forbidden.", roomId);
+            return;
+        }
+
         logger.info("get message:{}, roomId:{}", message, roomId);
         saveMessage(roomId, message).subscribe(msgId -> logger.info("message send id:{}", msgId));
 
-        template.convertAndSend(
-                String.format("%s%s", TOPIC_TEMPLATE, roomId), new Message(HtmlUtils.htmlEscape(message.messageStr())));
+        convertAndSend(roomId, message);
+        convertAndSend(Room.AGGREGATE_ROOM.getCriterion(), message);
     }
 
     @EventListener
@@ -60,6 +67,11 @@ public class MessageController {
         getMessagesByRoomId(roomId)
                 .doOnError(ex -> logger.error("getting messages for roomId:{} failed", roomId, ex))
                 .subscribe(message -> template.convertAndSend(simpDestination, message));
+    }
+
+    private void convertAndSend(String roomId, Message message){
+        template.convertAndSend(
+                String.format("%s%s", TOPIC_TEMPLATE, roomId), new Message(HtmlUtils.htmlEscape(message.messageStr())));
     }
 
     private long parseRoomId(String simpDestination) {

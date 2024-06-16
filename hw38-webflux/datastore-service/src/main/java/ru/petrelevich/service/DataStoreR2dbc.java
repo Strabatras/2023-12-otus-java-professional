@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Scheduler;
+
+import ru.otus.enums.Room;
 import ru.petrelevich.domain.Message;
 import ru.petrelevich.repository.MessageRepository;
 
@@ -32,6 +34,9 @@ public class DataStoreR2dbc implements DataStore {
     @Override
     public Flux<Message> loadMessages(String roomId) {
         log.info("loadMessages roomId:{}", roomId);
-        return messageRepository.findByRoomId(roomId).delayElements(Duration.of(3, SECONDS), workerPool);
+        var fluxMessages = Room.AGGREGATE_ROOM.getCriterion().equals(roomId)
+                ? messageRepository.findAll()
+                : messageRepository.findByRoomId(roomId);
+        return fluxMessages.delayElements(Duration.of(3, SECONDS), workerPool);
     }
 }
