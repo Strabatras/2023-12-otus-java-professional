@@ -1,4 +1,6 @@
 dependencies {
+    implementation(project(":hw38-webflux:common"))
+
     implementation("org.springframework.boot:spring-boot-starter-websocket")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation ("com.google.code.findbugs:jsr305")
