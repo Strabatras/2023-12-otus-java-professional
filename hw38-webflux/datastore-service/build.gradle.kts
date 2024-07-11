@@ -1,5 +1,4 @@
 dependencies {
-    //implementation(project(":hw38-webflux:client-service"))
 
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation ("com.google.code.findbugs:jsr305")
