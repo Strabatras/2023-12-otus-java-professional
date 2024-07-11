@@ -2,8 +2,6 @@ package ru.petrelevich.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.netty.channel.nio.NioEventLoopGroup;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +9,9 @@ import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.http.client.reactive.ReactorResourceFactory;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.util.annotation.Nullable;
+
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Configuration
 @SuppressWarnings("java:S2095")

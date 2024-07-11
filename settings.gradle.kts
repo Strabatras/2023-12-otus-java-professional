@@ -18,7 +18,6 @@ include("hw28-spring-data-jdbc")
 include("hw31-executors")
 include("hw32-thread-safe-collections")
 include("hw33-grpc")
-include("hw38-webflux:common")
 include("hw38-webflux:client-service")
 include("hw38-webflux:datastore-service")
 
