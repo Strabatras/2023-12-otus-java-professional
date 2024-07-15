@@ -30,12 +30,11 @@ public class ClientServiceImpl implements ClientService {
         numberService.runSequence(request, observer);
 
         for (long i = CLIENT_FIRST_VALUE; i < CLIENT_LAST_VALUE; i++) {
-            long numberFromServer = observer.monitor.getValue();
+            long numberFromServer = observer.monitor.getValueAndReset();
             logger.atInfo().setMessage(
                     "number from server %d".formatted(numberFromServer)
             ).log();
             currentValue = currentValue + numberFromServer + 1;
-            observer.monitor.setValue(0);
             logger.atInfo().setMessage(
                     "current value %d".formatted(currentValue)
             ).log();

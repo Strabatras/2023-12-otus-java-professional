@@ -37,8 +37,10 @@ public class NumberStreamObserver implements StreamObserver<NumberResponse> {
             this.value = value;
         }
 
-        public synchronized long getValue() {
-            return this.value;
+        public synchronized long getValueAndReset() {
+            final long resultValue = this.value;
+            this.value = 0;
+            return resultValue;
         }
     }
 }
