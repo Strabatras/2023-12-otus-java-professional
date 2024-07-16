@@ -9,11 +9,11 @@ public class NumberStreamObserver implements StreamObserver<NumberResponse> {
 
     private static final Logger logger = LoggerFactory.getLogger(NumberStreamObserver.class);
 
-    public final Monitor monitor = new Monitor();
+    private long responseValue = 0;
 
     @Override
     public void onNext(NumberResponse numberResponse) {
-        monitor.setValue(numberResponse.getNumber());
+        setResponseValue(numberResponse.getNumber());
         logger.atInfo().setMessage(
                 "new value: %d".formatted(numberResponse.getNumber())
         ).log();
@@ -29,18 +29,13 @@ public class NumberStreamObserver implements StreamObserver<NumberResponse> {
         logger.atInfo().setMessage("onCompleted").log();
     }
 
-    public class Monitor {
+    public synchronized void setResponseValue(long responseValue) {
+        this.responseValue = responseValue;
+    }
 
-        private long value = 0;
-
-        public synchronized void setValue(long value) {
-            this.value = value;
-        }
-
-        public synchronized long getValueAndReset() {
-            final long resultValue = this.value;
-            this.value = 0;
-            return resultValue;
-        }
+    public synchronized long getResponseValueAndReset() {
+        final long value = this.responseValue;
+        this.responseValue = 0;
+        return value;
     }
 }
